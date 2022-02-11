@@ -8,6 +8,8 @@ export default new Vuex.Store({
     characters: [],
     currPage: 1,
     currPlanet: null,
+    currSpecies: null,
+    currVehicles: [],
     maxPages: 0
   },
   mutations: {
@@ -20,11 +22,27 @@ export default new Vuex.Store({
     prevPage(state) {
       state.currPage--
     },
-    setMaxPages(state, maxPages){
+    setMaxPages(state, maxPages) {
       state.maxPages = maxPages
     },
-    savePlanet(state, planet){
+    savePlanet(state, planet) {
       state.currPlanet = planet
+    },
+    saveSpecies(state, species) {
+      state.currSpecies = species
+    },
+    unknownSpecies(state) {
+      state.currSpecies = "unknown"
+    },
+    clearVehicles(state){
+      state.currVehicles = []
+    },
+    saveVehicles(state, vehicles) {
+      console.log(vehicles);
+      state.currVehicles.push(vehicles)
+    },
+    unknownVehicles(state){
+      state.currVehicles = "unknown"
     }
   },
   actions: {
@@ -36,7 +54,7 @@ export default new Vuex.Store({
       }
       context.commit('saveChars', data.results)
     },
-    async fetchPlanet(context, char){
+    async fetchPlanet(context, char) {
       const request = await fetch(char.homeworld)
       const data = await request.json()
       context.commit('savePlanet', data)
@@ -49,6 +67,33 @@ export default new Vuex.Store({
       context.commit('prevPage')
       await context.dispatch('fetchChars')
     },
+    async fetchSpecies(context, char) {
+      try {
+        const request = await fetch(char.species)
+        const data = await request.json()
+        context.commit('saveSpecies', data)
+        // console.log(data);
+      } catch (error) {
+        context.commit('unknownSpecies')
+      }
+      // context.commit()
+    },
+    async fetchVehicles(context, char) {
+      context.commit('clearVehicles')
+      const vehicles = char.vehicles
+      try {
+        await Promise.all(
+          vehicles.map(async (vehicle) => {
+            const response = await fetch(vehicle)
+            const data = await response.json()
+            context.commit('saveVehicles', data)
+            // console.log(data)
+          }))
+      } catch (error) {
+        context.commit('unknownVehicles')
+        console.log(error);
+      }
+    }
   },
   modules: {
   }

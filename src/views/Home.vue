@@ -30,12 +30,24 @@
 					<li>Gender: {{ currChar.gender }}</li>
 				</ul>
 				<div class="infoTabs" v-if="currChar">
-					<button>Planet</button>
-					<button>Species</button>
-          <button>Vehicles</button>
-          <button>StarShips</button>
+					<!-- <button
+						@click="
+							planetLoading = false;
+							speciesLoading = true;
+						"
+					>
+						Planet
+					</button> -->
+					<!-- <button @click="dispatchSpecies">Species</button>
+					<button @click="dispatchVehicles">Vehicles</button> -->
+					<!-- <button>Starships</button> -->
+          <router-link :to="{ name: 'PlanetView'}"><button>Planet</button></router-link>
+          <router-link :to="{ name: 'SpeciesView'}"><button>Species</button></router-link>
+          <router-link v-if="vehicles.length" :to="{ name: 'VehiclesView'}"><button>Vehicles</button></router-link>
+          <!-- <router-link :to="{ name: 'SpeciesView'}"><button>StarShips</button></router-link> -->
 				</div>
-				<ul class="charInfo" v-if="!planetLoading">
+        <router-view name: PlanetView></router-view>
+				<!-- <ul class="charInfo" v-if="!planetLoading">
 					<h3>{{ planet.name }}</h3>
 					<li>Rotation period: {{ planet.rotation_period }}</li>
 					<li>Orbital period: {{ planet.orbital_period }}</li>
@@ -44,6 +56,22 @@
 					<li>Gravity: {{ planet.gravity }}</li>
 					<li>Terrain: {{ planet.terrain }}</li>
 				</ul>
+				<ul class="charInfo" v-if="!speciesLoading && species === 'unknown'">
+					<h3>Name: Human</h3>
+					<li>Classification: mammal</li>
+					<li>Designation: sentient</li>
+				</ul>
+				<ul class="charInfo" v-if="!speciesLoading && species !== 'unknown'">
+					<h3>Name: {{ species.name }}</h3>
+					<li>Classification: {{ species.classification }}</li>
+					<li>Designation: {{ species.designation }}</li>
+					<li>Average height: {{ species.average_height }}</li>
+					<li>Skin colors: {{ species.skin_colors }}</li>
+					<li>Hair colors: {{ species.hair_colors }}</li>
+					<li>Eye color: {{ species.eye_colors }}</li>
+					<li>Average lifespan: {{ species.average_lifespan }}</li>
+					<li>Language: {{ species.language }}</li>
+				</ul> -->
 				<Spinner v-if="loading" />
 			</section>
 		</main>
@@ -60,6 +88,8 @@ export default {
 		return {
 			loading: true,
 			planetLoading: true,
+      vehiclesLoading: true,
+			speciesLoading: true,
 			currChar: null,
 		};
 	},
@@ -67,9 +97,15 @@ export default {
 		chars() {
 			return this.$store.state.characters;
 		},
-		planet() {
-			return this.$store.state.currPlanet;
-		},
+		vehicles(){
+      return this.$store.state.currVehicles
+    },
+		// planet() {
+		// 	return this.$store.state.currPlanet;
+		// },
+		// species() {
+		// 	return this.$store.state.currSpecies;
+		// },
 		currPage() {
 			return this.$store.state.currPage;
 		},
@@ -91,11 +127,30 @@ export default {
 		async setClickedChar(char) {
 			this.currChar = char;
 			this.loading = true;
-			this.planetLoading = true;
+			// this.planetLoading = true;
 			await this.$store.dispatch("fetchPlanet", char);
-			this.planetLoading = false;
+			await this.$store.dispatch("fetchSpecies", char);
+      await this.$store.dispatch("fetchVehicles", char);
+			// this.planetLoading = false;
+			// this.speciesLoading = true;
 			this.loading = false;
 		},
+		// async dispatchSpecies() {
+		// 	this.loading = true;
+		// 	// await this.$store.dispatch("fetchSpecies", this.currChar);
+		// 	// this.speciesLoading = true;
+		// 	// this.planetLoading = true;
+		// 	this.speciesLoading = false;
+		// 	this.loading = false;
+		// },
+		// async dispatchVehicles() {
+		// 	this.loading = true;
+		// 	this.vehiclesLoading = true;
+		// 	await this.$store.dispatch("fetchVehicles", this.currChar);
+		// 	this.planetLoading = true;
+		// 	this.vehiclesLoading = false;
+		// 	this.loading = false;
+		// },
 	},
 	async mounted() {
 		await this.$store.dispatch("fetchChars");
@@ -201,9 +256,9 @@ section:first-child {
 	color: rgba(255, 255, 255, 0.849);
 }
 
-.infoScroll {
-	overflow-y: scroll;
-}
+// .infoScroll {
+// 	overflow-y: scroll;
+// }
 
 .charInfo::-webkit-scrollbar-thumb {
 	background-color: darkgrey;
@@ -301,7 +356,7 @@ button[disabled="disabled"] {
 }
 
 .infoTabs {
-  background: #a5a5a5;
+	background: #a5a5a5;
 	display: flex;
 	justify-content: space-evenly;
 }
