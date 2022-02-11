@@ -29,16 +29,21 @@
 					<li>Birth Year: {{ currChar.birth_year }}</li>
 					<li>Gender: {{ currChar.gender }}</li>
 				</ul>
-				<div class="infoTabs"></div>
-					<ul class="charInfo" v-if="!planetLoading">
-						<h3>{{ planet.name }}</h3>
-						<li>Rotation period: {{ planet.rotation_period }}</li>
-						<li>Orbital period: {{ planet.orbital_period }}</li>
-						<li>Diameter: {{ planet.diameter }}</li>
-						<li>Climate: {{ planet.climate }}</li>
-						<li>Gravity: {{ planet.gravity }}</li>
-						<li>Terrain: {{ planet.terrain }}</li>
-					</ul>
+				<div class="infoTabs" v-if="currChar">
+					<button>Planet</button>
+					<button>Species</button>
+          <button>Vehicles</button>
+          <button>StarShips</button>
+				</div>
+				<ul class="charInfo" v-if="!planetLoading">
+					<h3>{{ planet.name }}</h3>
+					<li>Rotation period: {{ planet.rotation_period }}</li>
+					<li>Orbital period: {{ planet.orbital_period }}</li>
+					<li>Diameter: {{ planet.diameter }}</li>
+					<li>Climate: {{ planet.climate }}</li>
+					<li>Gravity: {{ planet.gravity }}</li>
+					<li>Terrain: {{ planet.terrain }}</li>
+				</ul>
 				<Spinner v-if="loading" />
 			</section>
 		</main>
@@ -100,7 +105,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .hideBtn {
 	visibility: hidden;
 }
@@ -216,7 +220,7 @@ section:first-child {
 }
 
 .charDetails {
-      background-color: #a5a5a5;
+	background-color: #a5a5a5;
 	// flex: 1;
 }
 
@@ -229,7 +233,7 @@ section:first-child {
 }
 
 section:nth-of-type(2) {
-  background-color: grey;
+	background-color: grey;
 	display: flex;
 	flex-direction: column;
 }
@@ -297,6 +301,7 @@ button[disabled="disabled"] {
 }
 
 .infoTabs {
+  background: #a5a5a5;
 	display: flex;
 	justify-content: space-evenly;
 }
