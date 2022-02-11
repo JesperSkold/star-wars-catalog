@@ -43,8 +43,8 @@
 					<!-- <button>Starships</button> -->
           <router-link :to="{ name: 'PlanetView'}"><button>Planet</button></router-link>
           <router-link :to="{ name: 'SpeciesView'}"><button>Species</button></router-link>
-          <router-link v-if="vehicles.length" :to="{ name: 'VehiclesView'}"><button>Vehicles</button></router-link>
-          <router-link v-if="starships.length" :to="{ name: 'StarshipsView'}"><button>Starships</button></router-link>
+          <router-link :to="{ name: 'VehiclesView'}"><button :class="{inactiveTab: !vehicles.length}">Vehicles</button></router-link>
+          <router-link :to="{ name: 'StarshipsView'}"><button :class="{inactiveTab: !starships.length}">Starships</button></router-link>
 				</div>
         <router-view></router-view>
 				<!-- <ul class="charInfo" v-if="!planetLoading">
@@ -164,6 +164,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.inactiveTab{
+  opacity: .4 !important;
+}
+
 .hideBtn {
 	visibility: hidden;
 }
