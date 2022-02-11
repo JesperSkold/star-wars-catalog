@@ -22,6 +22,9 @@ export default new Vuex.Store({
     },
     setMaxPages(state, maxPages){
       state.maxPages = maxPages
+    },
+    savePlanet(state, planet){
+      state.currPlanet = planet
     }
   },
   actions: {
@@ -32,6 +35,11 @@ export default new Vuex.Store({
         context.commit('setMaxPages', Math.ceil(data.count / 10))
       }
       context.commit('saveChars', data.results)
+    },
+    async fetchPlanet(context, char){
+      const request = await fetch(char.homeworld)
+      const data = await request.json()
+      context.commit('savePlanet', data)
     },
     async fetchNextPage(context) {
       context.commit('nextPage')

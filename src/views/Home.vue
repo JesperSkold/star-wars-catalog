@@ -7,21 +7,40 @@
 		<main>
 			<section>
 				<h2 class="characterBackground">Characters</h2>
-          <Spinner v-if="loading" />
+				<Spinner v-if="loading" />
 				<ul class="characters">
-					<li v-for="char of chars" :key="char.name">{{ char.name }}</li>
+					<li v-for="char of chars" :key="char.name" @click="setClickedChar(char)">{{ char.name }}</li>
 				</ul>
 				<div class="paginator">
-					<span class="prevBtn" :class="{hideBtn: currPage === 1}" @click="prevPage">&#9665;</span>
+					<button class="prevBtn" :class="{ hideBtn: currPage === 1 }" :disabled="loading" @click="prevPage">&#9665;</button>
 					<span class="numberList">{{ currPage }} / {{ maxPages }}</span>
-					<span class="nextBtn" :class="{hideBtn: currPage === maxPages}" @click="nextPage">&#9655;</span>
+					<button class="nextBtn" :class="{ hideBtn: currPage === maxPages }" :disabled="loading" @click="nextPage">&#9655;</button>
 				</div>
 			</section>
 			<section>
 				<h2 class="detailsBackground">Details</h2>
-				<ul class="charDetails"></ul>
+				<ul class="charDetails" v-if="currChar">
+					<h3>{{ currChar.name }}</h3>
+					<li>Height: {{ currChar.height }} cm</li>
+					<li>Mass: {{ currChar.mass }} kg</li>
+					<li>Hair color: {{ currChar.hair_color }}</li>
+					<li>Skin color: {{ currChar.skin_color }}</li>
+					<li>Eye color: {{ currChar.eye_color }}</li>
+					<li>Birth Year: {{ currChar.birth_year }}</li>
+					<li>Gender: {{ currChar.gender }}</li>
+				</ul>
 				<div class="infoTabs"></div>
-				<ul class="charInfo"></ul>
+          <Spinner v-if="planetLoading"/>
+				<ul class="charInfo" v-if="!planetLoading">
+					<h3>{{planet.name}}</h3>
+					<li>Rotation period: {{planet.rotation_period}}</li>
+					<li>Orbital period: {{planet.orbital_period}}</li>
+					<li>Diameter: {{planet.diameter}}</li>
+					<li>Climate: {{planet.climate}}</li>
+					<li>Gravity: {{planet.gravity}}</li>
+					<li>Terrain: {{planet.terrain}}</li>
+					
+				</ul>
 			</section>
 		</main>
 	</div>
@@ -31,7 +50,7 @@
 import Spinner from "../components/Spinner.vue";
 export default {
 	components: {
-		Spinner
+		Spinner,
 	},
 	data() {
 		return {
@@ -44,6 +63,9 @@ export default {
 		chars() {
 			return this.$store.state.characters;
 		},
+		planet() {
+			return this.$store.state.currPlanet;
+		},
 		currPage() {
 			return this.$store.state.currPage;
 		},
@@ -53,231 +75,240 @@ export default {
 	},
 	methods: {
 		async prevPage() {
-      this.loading = true
+			this.loading = true;
 			await this.$store.dispatch("fetchPrevPage");
-      this.loading = false
+			this.loading = false;
 		},
 		async nextPage() {
-      this.loading = true
-      await this.$store.dispatch("fetchNextPage");
-      this.loading = false
+			this.loading = true;
+			await this.$store.dispatch("fetchNextPage");
+			this.loading = false;
+		},
+		async setClickedChar(char) {
+			this.currChar = char;
+      this.planetLoading = true
+			await this.$store.dispatch("fetchPlanet", char);
+      this.planetLoading = false
 		},
 	},
 	async mounted() {
-    await this.$store.dispatch("fetchChars");
-    this.loading = false
+		await this.$store.dispatch("fetchChars");
+		this.loading = false;
 	},
 };
 </script>
 
 <style lang="scss" scoped>
-
-.hideBtn{
-  visibility: hidden;
+.hideBtn {
+	visibility: hidden;
 }
 
 .wrapper {
-  height: 100vh;
-  background-color: rgba(8, 8, 8, 0.774);
+	height: 100vh;
+	background-color: rgba(8, 8, 8, 0.774);
 }
 
 header {
-  background-image: url("../assets/header-background.png");
-  background-repeat: no-repeat;
-  background-size: auto 100vw;
-  background-size: cover;
-  display: flex;
-  padding: 4.4rem;
-  background-position: bottom right;
-  flex-direction: column;
+	background-image: url("../assets/header-background.png");
+	background-repeat: no-repeat;
+	background-size: auto 100vw;
+	background-size: cover;
+	display: flex;
+	padding: 4.4rem;
+	background-position: bottom right;
+	flex-direction: column;
 }
 
 header h1 {
-  letter-spacing: 0.5rem;
-  width: 40rem;
-  text-transform: uppercase;
-  color: rgb(240, 217, 9);
-  font-size: 4rem;
-  font-weight: 300;
-  margin-bottom: 1rem;
+	letter-spacing: 0.5rem;
+	width: 40rem;
+	text-transform: uppercase;
+	color: rgb(240, 217, 9);
+	font-size: 4rem;
+	font-weight: 300;
+	margin-bottom: 1rem;
 }
 
 h2 {
-  color: rgb(240, 217, 9);
+	color: rgb(240, 217, 9);
 }
 
 h3 {
-  letter-spacing: 0.3rem;
-  font-size: 1.5rem;
-  color: rgba(0, 0, 0, 0.603)
+	letter-spacing: 0.3rem;
+	font-size: 1.5rem;
+	color: rgba(0, 0, 0, 0.603);
 }
 
-.charDetails, .charInfo {
-  padding: 0.8rem;
+.charDetails,
+.charInfo {
+	padding: 0.8rem;
 }
 
 li {
-  list-style: none;
-  padding: 0.2rem;
-  letter-spacing: 0.1rem;
+	list-style: none;
+	padding: 0.2rem;
+	letter-spacing: 0.1rem;
 }
 
 main {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 section {
-  height: 65vh;
-  margin: -3rem 2rem 4rem 2rem;
-  width: 48vh;
-  background-color: rgb(165, 165, 165);
-  border-radius: 0.8rem 0.8rem 0 0;
+	height: 65vh;
+	margin: -3rem 2rem 4rem 2rem;
+	width: 48vh;
+	background-color: rgb(165, 165, 165);
+	border-radius: 0.8rem 0.8rem 0 0;
 }
 
 section:first-child {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .characterBackground {
-  background-color: rgb(87, 86, 86);
-  box-shadow: 0px 5px 1px 0px rgba(0,0,0,0.55);
-  margin-bottom: 0.2rem;
+	background-color: rgb(87, 86, 86);
+	box-shadow: 0px 5px 1px 0px rgba(0, 0, 0, 0.55);
+	margin-bottom: 0.2rem;
 }
 
 .detailsBackground {
-  background-color:rgb(78, 116, 119);
+	background-color: rgb(78, 116, 119);
 }
 
-.characterBackground, .detailsBackground {
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-  letter-spacing: .4rem;
-  border-radius: 0.8rem 0.8rem 0 0;
+.characterBackground,
+.detailsBackground {
+	padding: 1rem;
+	display: flex;
+	justify-content: center;
+	letter-spacing: 0.4rem;
+	border-radius: 0.8rem 0.8rem 0 0;
 }
 
 .charInfo {
-  display: flex;
-  flex-direction: column;
-  background-color: grey;
-  flex: 1;
-  color: rgba(255, 255, 255, 0.849);
+	display: flex;
+	flex-direction: column;
+	background-color: grey;
+	flex: 1;
+	color: rgba(255, 255, 255, 0.849);
 }
 
 .infoScroll {
-  overflow-y: scroll;
+	overflow-y: scroll;
 }
 
 .charInfo::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  border-radius: 1rem;
-  
+	background-color: darkgrey;
+	border-radius: 1rem;
 }
 .charInfo::-webkit-scrollbar-track {
-  border-radius: 1rem;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  margin-top: 0.1rem;
+	border-radius: 1rem;
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	margin-top: 0.1rem;
 }
 
-
-
 .charInfo::-webkit-scrollbar {
-  width: 1em;
+	width: 1em;
 }
 
 .charDetails {
-  flex: 1;
-  }
-  
+	flex: 1;
+}
+
 .charInfo h3 {
-  color: rgba(255, 255, 255, 0.849);
+	color: rgba(255, 255, 255, 0.849);
 }
 
-.charInfo h3:not(:first-child){
- margin: 1rem 0 0.2rem 0
+.charInfo h3:not(:first-child) {
+	margin: 1rem 0 0.2rem 0;
 }
 
-section:nth-of-type(2){
-  display: flex;
-  flex-direction: column;
+section:nth-of-type(2) {
+	display: flex;
+	flex-direction: column;
 }
 
 .paginator {
-  user-select: none;
-  margin: auto auto 0.2rem auto;
+	user-select: none;
+	margin: auto auto 0.2rem auto;
 }
 
 .paginator span {
-  font-size: 2rem;
-  margin: 0 1rem 0 1rem;
-  
+	font-size: 2rem;
+	margin: 0 1rem 0 1rem;
 }
 
 .nextBtn {
-  cursor: pointer;
+	cursor: pointer;
+  font-size: 2rem;
+  border: none;
+  background: none;
 }
 
 .prevBtn {
-  cursor: pointer;
+	cursor: pointer;
+  font-size: 2rem;
+  border: none;
+  background: none;
 }
 
 .characters {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .characters li {
-  font-size: 1.2rem;
-  padding: 0.5rem;
-  transition: background-color 0.5s, padding 0.7s;
+	font-size: 1.2rem;
+	padding: 0.5rem;
+	transition: background-color 0.5s, padding 0.7s;
 }
 
-.characters li:nth-child(2n+1){
-  background-color: grey;
-  color: rgba(245, 245, 245, 0.75);
+.characters li:nth-child(2n + 1) {
+	background-color: grey;
+	color: rgba(245, 245, 245, 0.75);
 }
 
-.characters li:nth-child(2n){
-  background-color: rgba(245, 245, 245, 0.75);
-  color: rgba(0, 0, 0, 0.9);
+.characters li:nth-child(2n) {
+	background-color: rgba(245, 245, 245, 0.75);
+	color: rgba(0, 0, 0, 0.9);
 }
 
 .characters .clickedChar {
-  background-color: rgba(0, 0, 0, 0.801) !important;
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
-  color: rgba(245, 245, 245, 0.75)! important;
+	background-color: rgba(0, 0, 0, 0.801) !important;
+	padding: 0.5rem 0.5rem 0.5rem 1rem;
+	color: rgba(245, 245, 245, 0.75) !important;
 }
 
 .clickedChar::after {
-content: "▸";
-color: white;
-height: 1rem;
-margin-top: 0.2rem;
+	content: "▸";
+	color: white;
+	height: 1rem;
+	margin-top: 0.2rem;
 }
 
 .infoTabs {
-display: flex;
-justify-content: space-evenly;
+	display: flex;
+	justify-content: space-evenly;
 }
 
 .infoTabs button {
-  padding: 0.8rem 0.5rem;
-  min-width: 20%;
-  color: goldenrod;
-  background-color: rgba(245, 245, 245, 0.75);
-  border: none;
-  border-radius: 0.2rem 0.2rem 0 0;
-  cursor: pointer;
+	padding: 0.8rem 0.5rem;
+	min-width: 20%;
+	color: goldenrod;
+	background-color: rgba(245, 245, 245, 0.75);
+	border: none;
+	border-radius: 0.2rem 0.2rem 0 0;
+	cursor: pointer;
 }
 
 .infoTabs .infoTabBtns {
-  background-color: grey;
+	background-color: grey;
 }
 
 .starwarsQuote {
-  color: rgb(240, 217, 9);
-  font-style: italic;
+	color: rgb(240, 217, 9);
+	font-style: italic;
 }
 </style>
