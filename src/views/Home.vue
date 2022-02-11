@@ -64,4 +64,237 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+body {
+  background-color: rgba(8, 8, 8, 0.774);
+}
+
+header {
+  background-image: url("../assets/header-background.png");
+  background-repeat: no-repeat;
+  background-size: auto 100vw;
+  background-size: cover;
+  display: flex;
+  padding: 4.4rem;
+  background-position: bottom right;
+  flex-direction: column;
+}
+
+header h1 {
+  letter-spacing: 0.5rem;
+  width: 40rem;
+  text-transform: uppercase;
+  color: rgb(240, 217, 9);
+  font-size: 4rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  color: rgb(240, 217, 9);
+}
+
+h3 {
+  letter-spacing: 0.3rem;
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, 0.603)
+}
+
+.charDetails, .charInfo {
+  padding: 0.8rem;
+}
+
+li {
+  list-style: none;
+  padding: 0.2rem;
+  letter-spacing: 0.1rem;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}
+
+section {
+  height: 65vh;
+  margin: -3rem 2rem 4rem 2rem;
+  width: 48vh;
+  background-color: rgb(165, 165, 165);
+  border-radius: 0.8rem 0.8rem 0 0;
+}
+
+section:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.characterBackground {
+  background-color: rgb(87, 86, 86);
+  box-shadow: 0px 5px 1px 0px rgba(0,0,0,0.55);
+  margin-bottom: 0.2rem;
+}
+
+.detailsBackground {
+  background-color:rgb(78, 116, 119);
+}
+
+.characterBackground, .detailsBackground {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  letter-spacing: .4rem;
+  border-radius: 0.8rem 0.8rem 0 0;
+}
+
+.charInfo {
+  display: flex;
+  flex-direction: column;
+  background-color: grey;
+  flex: 1;
+  color: rgba(255, 255, 255, 0.849);
+}
+
+.infoScroll {
+  overflow-y: scroll;
+}
+
+.charInfo::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border-radius: 1rem;
+  
+}
+.charInfo::-webkit-scrollbar-track {
+  border-radius: 1rem;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  margin-top: 0.1rem;
+}
+
+
+
+.charInfo::-webkit-scrollbar {
+  width: 1em;
+}
+
+.charDetails {
+  flex: 1;
+  }
+  
+.charInfo h3 {
+  color: rgba(255, 255, 255, 0.849);
+}
+
+.charInfo h3:not(:first-child){
+ margin: 1rem 0 0.2rem 0
+}
+
+section:nth-of-type(2){
+  display: flex;
+  flex-direction: column;
+}
+
+.paginator {
+  user-select: none;
+  margin: auto auto 0.2rem auto;
+}
+
+.paginator span {
+  font-size: 2rem;
+  margin: 0 1rem 0 1rem;
+  
+}
+
+.nextBtn {
+  cursor: pointer;
+}
+
+.prevBtn {
+  cursor: pointer;
+}
+
+.characters {
+  display: flex;
+  flex-direction: column;
+}
+
+.characters li {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  transition: background-color 0.5s, padding 0.7s;
+}
+
+.characters li:nth-child(2n+1){
+  background-color: grey;
+  color: rgba(245, 245, 245, 0.75);
+}
+
+.characters li:nth-child(2n){
+  background-color: rgba(245, 245, 245, 0.75);
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.lds-dual-ring {
+  align-self: center;
+  margin: auto;
+}
+
+.characters .lds-dual-ring {
+  margin-top: 45%;
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.characters .clickedChar {
+  background-color: rgba(0, 0, 0, 0.801) !important;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  color: rgba(245, 245, 245, 0.75)! important;
+}
+
+.clickedChar::after {
+content: "▸";
+color: white;
+height: 1rem;
+margin-top: 0.2rem;
+}
+
+.infoTabs {
+display: flex;
+justify-content: space-evenly;
+}
+
+.infoTabs button {
+  padding: 0.8rem 0.5rem;
+  min-width: 20%;
+  color: goldenrod;
+  background-color: rgba(245, 245, 245, 0.75);
+  border: none;
+  border-radius: 0.2rem 0.2rem 0 0;
+  cursor: pointer;
+}
+
+.infoTabs .infoTabBtns {
+  background-color: grey;
+}
+
+.starwarsQuote {
+  color: rgb(240, 217, 9);
+  font-style: italic;
+}
+</style>
