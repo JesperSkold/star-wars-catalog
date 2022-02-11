@@ -30,15 +30,15 @@
 					<li>Gender: {{ currChar.gender }}</li>
 				</ul>
 				<div class="infoTabs"></div>
-				<ul class="charInfo" v-if="!planetLoading">
-					<h3>{{ planet.name }}</h3>
-					<li>Rotation period: {{ planet.rotation_period }}</li>
-					<li>Orbital period: {{ planet.orbital_period }}</li>
-					<li>Diameter: {{ planet.diameter }}</li>
-					<li>Climate: {{ planet.climate }}</li>
-					<li>Gravity: {{ planet.gravity }}</li>
-					<li>Terrain: {{ planet.terrain }}</li>
-				</ul>
+					<ul class="charInfo" v-if="!planetLoading">
+						<h3>{{ planet.name }}</h3>
+						<li>Rotation period: {{ planet.rotation_period }}</li>
+						<li>Orbital period: {{ planet.orbital_period }}</li>
+						<li>Diameter: {{ planet.diameter }}</li>
+						<li>Climate: {{ planet.climate }}</li>
+						<li>Gravity: {{ planet.gravity }}</li>
+						<li>Terrain: {{ planet.terrain }}</li>
+					</ul>
 				<Spinner v-if="loading" />
 			</section>
 		</main>
@@ -85,7 +85,7 @@ export default {
 		},
 		async setClickedChar(char) {
 			this.currChar = char;
-      this.loading = true
+			this.loading = true;
 			this.planetLoading = true;
 			await this.$store.dispatch("fetchPlanet", char);
 			this.planetLoading = false;
@@ -100,6 +100,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .hideBtn {
 	visibility: hidden;
 }
@@ -192,7 +193,7 @@ section:first-child {
 	display: flex;
 	flex-direction: column;
 	background-color: grey;
-	flex: 1;
+	// flex: 1;
 	color: rgba(255, 255, 255, 0.849);
 }
 
@@ -215,7 +216,8 @@ section:first-child {
 }
 
 .charDetails {
-	flex: 1;
+      background-color: #a5a5a5;
+	// flex: 1;
 }
 
 .charInfo h3 {
@@ -227,6 +229,7 @@ section:first-child {
 }
 
 section:nth-of-type(2) {
+  background-color: grey;
 	display: flex;
 	flex-direction: column;
 }
@@ -255,8 +258,8 @@ section:nth-of-type(2) {
 	background: none;
 }
 
-button[disabled=disabled]{
-  color: black;
+button[disabled="disabled"] {
+	color: black;
 }
 
 .characters {
