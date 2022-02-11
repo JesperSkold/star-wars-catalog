@@ -7,6 +7,7 @@
 		<main>
 			<section>
 				<h2 class="characterBackground">Characters</h2>
+          <Spinner v-if="loading" />
 				<ul class="characters">
 					<li v-for="char of chars" :key="char.name">{{ char.name }}</li>
 				</ul>
@@ -27,10 +28,10 @@
 </template>
 
 <script>
-// import Spinner from "../components/Spinner.vue";
+import Spinner from "../components/Spinner.vue";
 export default {
 	components: {
-		// Spinner
+		Spinner
 	},
 	data() {
 		return {
@@ -52,14 +53,19 @@ export default {
 	},
 	methods: {
 		async prevPage() {
+      this.loading = true
 			await this.$store.dispatch("fetchPrevPage");
+      this.loading = false
 		},
 		async nextPage() {
-			await this.$store.dispatch("fetchNextPage");
+      this.loading = true
+      await this.$store.dispatch("fetchNextPage");
+      this.loading = false
 		},
 	},
 	async mounted() {
-		await this.$store.dispatch("fetchChars");
+    await this.$store.dispatch("fetchChars");
+    this.loading = false
 	},
 };
 </script>
@@ -236,35 +242,6 @@ section:nth-of-type(2){
 .characters li:nth-child(2n){
   background-color: rgba(245, 245, 245, 0.75);
   color: rgba(0, 0, 0, 0.9);
-}
-
-.lds-dual-ring {
-  align-self: center;
-  margin: auto;
-}
-
-.characters .lds-dual-ring {
-  margin-top: 45%;
-}
-
-.lds-dual-ring:after {
-  content: " ";
-  display: block;
-  width: 4rem;
-  height: 4rem;
-  margin: 8px;
-  border-radius: 50%;
-  border: 6px solid #fff;
-  border-color: #fff transparent #fff transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
-}
-@keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 .characters .clickedChar {
