@@ -30,17 +30,16 @@
 					<li>Gender: {{ currChar.gender }}</li>
 				</ul>
 				<div class="infoTabs"></div>
-          <Spinner v-if="planetLoading"/>
 				<ul class="charInfo" v-if="!planetLoading">
-					<h3>{{planet.name}}</h3>
-					<li>Rotation period: {{planet.rotation_period}}</li>
-					<li>Orbital period: {{planet.orbital_period}}</li>
-					<li>Diameter: {{planet.diameter}}</li>
-					<li>Climate: {{planet.climate}}</li>
-					<li>Gravity: {{planet.gravity}}</li>
-					<li>Terrain: {{planet.terrain}}</li>
-					
+					<h3>{{ planet.name }}</h3>
+					<li>Rotation period: {{ planet.rotation_period }}</li>
+					<li>Orbital period: {{ planet.orbital_period }}</li>
+					<li>Diameter: {{ planet.diameter }}</li>
+					<li>Climate: {{ planet.climate }}</li>
+					<li>Gravity: {{ planet.gravity }}</li>
+					<li>Terrain: {{ planet.terrain }}</li>
 				</ul>
+				<Spinner v-if="loading" />
 			</section>
 		</main>
 	</div>
@@ -86,9 +85,11 @@ export default {
 		},
 		async setClickedChar(char) {
 			this.currChar = char;
-      this.planetLoading = true
+      this.loading = true
+			this.planetLoading = true;
 			await this.$store.dispatch("fetchPlanet", char);
-      this.planetLoading = false
+			this.planetLoading = false;
+			this.loading = false;
 		},
 	},
 	async mounted() {
@@ -242,16 +243,20 @@ section:nth-of-type(2) {
 
 .nextBtn {
 	cursor: pointer;
-  font-size: 2rem;
-  border: none;
-  background: none;
+	font-size: 2rem;
+	border: none;
+	background: none;
 }
 
 .prevBtn {
 	cursor: pointer;
-  font-size: 2rem;
-  border: none;
-  background: none;
+	font-size: 2rem;
+	border: none;
+	background: none;
+}
+
+button[disabled=disabled]{
+  color: black;
 }
 
 .characters {

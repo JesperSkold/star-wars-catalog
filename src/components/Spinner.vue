@@ -22,6 +22,7 @@ export default {};
 	margin-left: auto;
 	margin-right: auto;
 	left: 0;
+  top: 50%;
 	right: 0;
 	text-align: center;
 	width: 80px;
