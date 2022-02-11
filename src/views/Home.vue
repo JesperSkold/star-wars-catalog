@@ -44,9 +44,9 @@
           <router-link :to="{ name: 'PlanetView'}"><button>Planet</button></router-link>
           <router-link :to="{ name: 'SpeciesView'}"><button>Species</button></router-link>
           <router-link v-if="vehicles.length" :to="{ name: 'VehiclesView'}"><button>Vehicles</button></router-link>
-          <!-- <router-link :to="{ name: 'SpeciesView'}"><button>StarShips</button></router-link> -->
+          <router-link v-if="starships.length" :to="{ name: 'StarshipsView'}"><button>Starships</button></router-link>
 				</div>
-        <router-view name: PlanetView></router-view>
+        <router-view></router-view>
 				<!-- <ul class="charInfo" v-if="!planetLoading">
 					<h3>{{ planet.name }}</h3>
 					<li>Rotation period: {{ planet.rotation_period }}</li>
@@ -100,6 +100,9 @@ export default {
 		vehicles(){
       return this.$store.state.currVehicles
     },
+    starships() {
+			return this.$store.state.currStarships;
+		},
 		// planet() {
 		// 	return this.$store.state.currPlanet;
 		// },
@@ -131,6 +134,7 @@ export default {
 			await this.$store.dispatch("fetchPlanet", char);
 			await this.$store.dispatch("fetchSpecies", char);
       await this.$store.dispatch("fetchVehicles", char);
+      await this.$store.dispatch("fetchStarships", char);
 			// this.planetLoading = false;
 			// this.speciesLoading = true;
 			this.loading = false;

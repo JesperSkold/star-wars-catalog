@@ -9,6 +9,7 @@ export default new Vuex.Store({
     currPage: 1,
     currPlanet: null,
     currSpecies: null,
+    currStarships: [],
     currVehicles: [],
     maxPages: 0
   },
@@ -38,11 +39,20 @@ export default new Vuex.Store({
       state.currVehicles = []
     },
     saveVehicles(state, vehicles) {
-      console.log(vehicles);
       state.currVehicles.push(vehicles)
     },
     unknownVehicles(state){
       state.currVehicles = "unknown"
+    },
+    clearStarships(state){
+      state.currStarships = []
+    },
+    saveStarships(state, starship){
+      console.log(starship);
+      state.currStarships.push(starship)
+    },
+    unknownStarships(state){
+      state.currStarships ="unknown"
     }
   },
   actions: {
@@ -93,7 +103,37 @@ export default new Vuex.Store({
         context.commit('unknownVehicles')
         console.log(error);
       }
+    },
+    async fetchStarships(context, char) {
+      context.commit('clearStarships')
+      const starships = char.starships
+      try {
+        await Promise.all(
+          starships.map(async (starship) => {
+            const response = await fetch(starship)
+            const data = await response.json()
+            context.commit('saveStarships', data)
+            // console.log(data)
+          }))
+      } catch (error) {
+        context.commit('unknownStarships')
+        console.log(error);
+      }
     }
+    // fetchStarships(context, char){
+    //   context.commit('clearStarships')
+    //   const starships = char.starships
+    //   try {
+    //     await Promise.all(
+    //       starships.map(async (starship) => {
+    //         const response = await fetch(starship)
+    //         const data = await response.json()
+    //         context.commit('saveStarships', data)
+    //       }))
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   },
   modules: {
   }

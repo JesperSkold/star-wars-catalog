@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Planet from '../views/Planet.vue'
 import Species from '../views/Species.vue'
 import Vehicles from '../views/Vehicles.vue'
+import Starships from '../views/Starships.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
         path: '/vehicles',
         name: 'VehiclesView',
         component: Vehicles
+      },
+      {
+        path: '/starships',
+        name: 'StarshipsView',
+        component: Starships
       },
     ]
   },
