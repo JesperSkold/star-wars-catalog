@@ -15,15 +15,9 @@ export default new Vuex.Store({
       state.characters = chars
     },
     nextPage(state) {
-      if (state.currPage === state.maxPages) {
-        return
-      }
       state.currPage++
     },
     prevPage(state) {
-      if (state.currPage === 1) {
-        return
-      }
       state.currPage--
     },
     setMaxPages(state, maxPages){

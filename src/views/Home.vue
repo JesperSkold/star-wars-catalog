@@ -11,9 +11,9 @@
 					<li v-for="char of chars" :key="char.name">{{ char.name }}</li>
 				</ul>
 				<div class="paginator">
-					<span class="prevBtn" @click="prevPage">&#9665;</span>
-					<span class="numberList">{{ currPage }} / {{ maxPage }}</span>
-					<span class="nextBtn" @click="nextPage">&#9655;</span>
+					<span class="prevBtn" :class="{hideBtn: currPage === 1}" @click="prevPage">&#9665;</span>
+					<span class="numberList">{{ currPage }} / {{ maxPages }}</span>
+					<span class="nextBtn" :class="{hideBtn: currPage === maxPages}" @click="nextPage">&#9655;</span>
 				</div>
 			</section>
 			<section>
@@ -46,8 +46,8 @@ export default {
 		currPage() {
 			return this.$store.state.currPage;
 		},
-		maxPage() {
-			return this.$store.state.maxPage;
+		maxPages() {
+			return this.$store.state.maxPages;
 		},
 	},
 	methods: {
@@ -65,7 +65,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-body {
+
+.hideBtn{
+  visibility: hidden;
+}
+
+.wrapper {
+  height: 100vh;
   background-color: rgba(8, 8, 8, 0.774);
 }
 
