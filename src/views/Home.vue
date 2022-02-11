@@ -41,12 +41,12 @@
 					<!-- <button @click="dispatchSpecies">Species</button>
 					<button @click="dispatchVehicles">Vehicles</button> -->
 					<!-- <button>Starships</button> -->
-          <router-link :to="{ name: 'PlanetView'}"><button>Planet</button></router-link>
-          <router-link :to="{ name: 'SpeciesView'}"><button>Species</button></router-link>
-          <router-link :to="{ name: 'VehiclesView'}"><button :class="{inactiveTab: !vehicles.length}">Vehicles</button></router-link>
-          <router-link :to="{ name: 'StarshipsView'}"><button :class="{inactiveTab: !starships.length}">Starships</button></router-link>
+					<router-link :to="{ name: 'PlanetView' }"><button>Planet</button></router-link>
+					<router-link :to="{ name: 'SpeciesView' }"><button>Species</button></router-link>
+					<router-link :to="{ name: 'VehiclesView' }"><button :class="{ inactiveTab: !vehicles.length }">Vehicles</button></router-link>
+					<router-link :to="{ name: 'StarshipsView' }"><button :class="{ inactiveTab: !starships.length }">Starships</button></router-link>
 				</div>
-        <router-view></router-view>
+				<router-view></router-view>
 				<!-- <ul class="charInfo" v-if="!planetLoading">
 					<h3>{{ planet.name }}</h3>
 					<li>Rotation period: {{ planet.rotation_period }}</li>
@@ -88,7 +88,7 @@ export default {
 		return {
 			loading: true,
 			planetLoading: true,
-      vehiclesLoading: true,
+			vehiclesLoading: true,
 			speciesLoading: true,
 			currChar: null,
 		};
@@ -97,10 +97,10 @@ export default {
 		chars() {
 			return this.$store.state.characters;
 		},
-		vehicles(){
-      return this.$store.state.currVehicles
-    },
-    starships() {
+		vehicles() {
+			return this.$store.state.currVehicles;
+		},
+		starships() {
 			return this.$store.state.currStarships;
 		},
 		// planet() {
@@ -133,8 +133,8 @@ export default {
 			// this.planetLoading = true;
 			await this.$store.dispatch("fetchPlanet", char);
 			await this.$store.dispatch("fetchSpecies", char);
-      await this.$store.dispatch("fetchVehicles", char);
-      await this.$store.dispatch("fetchStarships", char);
+			await this.$store.dispatch("fetchVehicles", char);
+			await this.$store.dispatch("fetchStarships", char);
 			// this.planetLoading = false;
 			// this.speciesLoading = true;
 			this.loading = false;
@@ -164,9 +164,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.infoTabs a.router-link-active {
+	-webkit-box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+	box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #f1cca7 0 -10px 20px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+}
 
-.inactiveTab{
-  opacity: .4 !important;
+.inactiveTab {
+	opacity: 0.4 !important;
 }
 
 .hideBtn {
