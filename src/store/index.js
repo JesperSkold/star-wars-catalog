@@ -35,25 +35,14 @@ export default new Vuex.Store({
     unknownSpecies(state) {
       state.currSpecies = "unknown"
     },
-    clearVehicles(state){
-      state.currVehicles = []
-    },
     saveVehicles(state, vehicles) {
-      state.currVehicles.push(vehicles)
+      state.currVehicles = []
+      state.currVehicles = vehicles
     },
-    unknownVehicles(state){
-      state.currVehicles = "unknown"
-    },
-    clearStarships(state){
+    saveStarships(state, starships) {
       state.currStarships = []
+      state.currStarships = starships
     },
-    saveStarships(state, starship){
-      console.log(starship);
-      state.currStarships.push(starship)
-    },
-    unknownStarships(state){
-      state.currStarships ="unknown"
-    }
   },
   actions: {
     async fetchChars(context) {
@@ -82,58 +71,36 @@ export default new Vuex.Store({
         const request = await fetch(char.species)
         const data = await request.json()
         context.commit('saveSpecies', data)
-        // console.log(data);
       } catch (error) {
         context.commit('unknownSpecies')
       }
-      // context.commit()
     },
     async fetchVehicles(context, char) {
-      context.commit('clearVehicles')
       const vehicles = char.vehicles
       try {
-        await Promise.all(
+        let data = await Promise.all(
           vehicles.map(async (vehicle) => {
             const response = await fetch(vehicle)
-            const data = await response.json()
-            context.commit('saveVehicles', data)
-            // console.log(data)
+            return data = await response.json()
           }))
+        context.commit('saveVehicles', data)
       } catch (error) {
-        context.commit('unknownVehicles')
-        console.log(error);
+        console.error(error);
       }
     },
     async fetchStarships(context, char) {
-      context.commit('clearStarships')
       const starships = char.starships
       try {
-        await Promise.all(
+        let data = await Promise.all(
           starships.map(async (starship) => {
             const response = await fetch(starship)
-            const data = await response.json()
-            context.commit('saveStarships', data)
-            // console.log(data)
+            return await response.json()
           }))
+        context.commit('saveStarships', data)
       } catch (error) {
-        context.commit('unknownStarships')
-        console.log(error);
+        console.error(error);
       }
     }
-    // fetchStarships(context, char){
-    //   context.commit('clearStarships')
-    //   const starships = char.starships
-    //   try {
-    //     await Promise.all(
-    //       starships.map(async (starship) => {
-    //         const response = await fetch(starship)
-    //         const data = await response.json()
-    //         context.commit('saveStarships', data)
-    //       }))
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
   },
   modules: {
   }
