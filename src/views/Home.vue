@@ -8,7 +8,7 @@
 			<section>
 				<h2 class="characterBackground">Characters</h2>
 				<Spinner v-if="loading" />
-				<ul class="characters">
+				<ul class="characters" :class="{preventClick: loading}">
 					<li
 						v-for="char of chars"
 						:key="char.name"
@@ -39,7 +39,7 @@
 					<li>Birth Year: {{ currChar.birth_year }}</li>
 					<li>Gender: {{ currChar.gender }}</li>
 				</ul>
-				<div class="infoTabs" v-if="currChar">
+				<div class="infoTabs" v-if="currChar" :class="{preventClick: loading}">
 					<router-link :to="{ name: 'PlanetView' }"><button>Planet</button></router-link>
 					<router-link :to="{ name: 'SpeciesView' }"><button>Species</button></router-link>
 					<router-link :to="{ name: 'VehiclesView' }"><button :class="{ inactiveTab: !vehicles.length }">Vehicles</button></router-link>
@@ -116,6 +116,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.preventClick{
+	pointer-events: none;
+}
 .infoTabs a.router-link-active {
 	-webkit-box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
 	box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 5px, #f1cca7 0 -10px 20px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
