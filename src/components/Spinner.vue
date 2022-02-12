@@ -17,6 +17,7 @@ export default {};
 
 <style lang="scss" scoped>
 .lds-roller {
+	transform: scale(.8);
 	display: inline-block;
 	position: absolute;
 	margin-left: auto;
@@ -24,7 +25,6 @@ export default {};
 	left: 0;
   top: 50%;
 	right: 0;
-	text-align: center;
 	width: 80px;
 	height: 80px;
 }
