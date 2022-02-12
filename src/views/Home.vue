@@ -30,49 +30,12 @@
 					<li>Gender: {{ currChar.gender }}</li>
 				</ul>
 				<div class="infoTabs" v-if="currChar">
-					<!-- <button
-						@click="
-							planetLoading = false;
-							speciesLoading = true;
-						"
-					>
-						Planet
-					</button> -->
-					<!-- <button @click="dispatchSpecies">Species</button>
-					<button @click="dispatchVehicles">Vehicles</button> -->
-					<!-- <button>Starships</button> -->
 					<router-link :to="{ name: 'PlanetView' }"><button>Planet</button></router-link>
 					<router-link :to="{ name: 'SpeciesView' }"><button>Species</button></router-link>
 					<router-link :to="{ name: 'VehiclesView' }"><button :class="{ inactiveTab: !vehicles.length }">Vehicles</button></router-link>
 					<router-link :to="{ name: 'StarshipsView' }"><button :class="{ inactiveTab: !starships.length }">Starships</button></router-link>
 				</div>
 				<router-view></router-view>
-				<!-- <ul class="charInfo" v-if="!planetLoading">
-					<h3>{{ planet.name }}</h3>
-					<li>Rotation period: {{ planet.rotation_period }}</li>
-					<li>Orbital period: {{ planet.orbital_period }}</li>
-					<li>Diameter: {{ planet.diameter }}</li>
-					<li>Climate: {{ planet.climate }}</li>
-					<li>Gravity: {{ planet.gravity }}</li>
-					<li>Terrain: {{ planet.terrain }}</li>
-				</ul>
-				<ul class="charInfo" v-if="!speciesLoading && species === 'unknown'">
-					<h3>Name: Human</h3>
-					<li>Classification: mammal</li>
-					<li>Designation: sentient</li>
-				</ul>
-				<ul class="charInfo" v-if="!speciesLoading && species !== 'unknown'">
-					<h3>Name: {{ species.name }}</h3>
-					<li>Classification: {{ species.classification }}</li>
-					<li>Designation: {{ species.designation }}</li>
-					<li>Average height: {{ species.average_height }}</li>
-					<li>Skin colors: {{ species.skin_colors }}</li>
-					<li>Hair colors: {{ species.hair_colors }}</li>
-					<li>Eye color: {{ species.eye_colors }}</li>
-					<li>Average lifespan: {{ species.average_lifespan }}</li>
-					<li>Language: {{ species.language }}</li>
-				</ul> -->
-				<Spinner v-if="loading" />
 			</section>
 		</main>
 	</div>
@@ -87,9 +50,6 @@ export default {
 	data() {
 		return {
 			loading: true,
-			planetLoading: true,
-			vehiclesLoading: true,
-			speciesLoading: true,
 			currChar: null,
 		};
 	},
@@ -103,12 +63,6 @@ export default {
 		starships() {
 			return this.$store.state.currStarships;
 		},
-		// planet() {
-		// 	return this.$store.state.currPlanet;
-		// },
-		// species() {
-		// 	return this.$store.state.currSpecies;
-		// },
 		currPage() {
 			return this.$store.state.currPage;
 		},
@@ -130,31 +84,12 @@ export default {
 		async setClickedChar(char) {
 			this.currChar = char;
 			this.loading = true;
-			// this.planetLoading = true;
 			await this.$store.dispatch("fetchPlanet", char);
 			await this.$store.dispatch("fetchSpecies", char);
 			await this.$store.dispatch("fetchVehicles", char);
 			await this.$store.dispatch("fetchStarships", char);
-			// this.planetLoading = false;
-			// this.speciesLoading = true;
 			this.loading = false;
 		},
-		// async dispatchSpecies() {
-		// 	this.loading = true;
-		// 	// await this.$store.dispatch("fetchSpecies", this.currChar);
-		// 	// this.speciesLoading = true;
-		// 	// this.planetLoading = true;
-		// 	this.speciesLoading = false;
-		// 	this.loading = false;
-		// },
-		// async dispatchVehicles() {
-		// 	this.loading = true;
-		// 	this.vehiclesLoading = true;
-		// 	await this.$store.dispatch("fetchVehicles", this.currChar);
-		// 	this.planetLoading = true;
-		// 	this.vehiclesLoading = false;
-		// 	this.loading = false;
-		// },
 	},
 	async mounted() {
 		await this.$store.dispatch("fetchChars");
