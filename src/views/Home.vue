@@ -101,7 +101,7 @@ export default {
 <style lang="scss" scoped>
 .infoTabs a.router-link-active {
 	-webkit-box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
-	box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #f1cca7 0 -10px 20px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+	box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 5px, #f1cca7 0 -10px 20px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
 }
 
 .inactiveTab {
@@ -196,43 +196,8 @@ section:first-child {
 	border-radius: 0.8rem 0.8rem 0 0;
 }
 
-.charInfo {
-	display: flex;
-	flex-direction: column;
-	background-color: grey;
-	// flex: 1;
-	color: rgba(255, 255, 255, 0.849);
-}
-
-// .infoScroll {
-// 	overflow-y: scroll;
-// }
-
-.charInfo::-webkit-scrollbar-thumb {
-	background-color: darkgrey;
-	border-radius: 1rem;
-}
-.charInfo::-webkit-scrollbar-track {
-	border-radius: 1rem;
-	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-	margin-top: 0.1rem;
-}
-
-.charInfo::-webkit-scrollbar {
-	width: 1em;
-}
-
 .charDetails {
 	background-color: #a5a5a5;
-	// flex: 1;
-}
-
-.charInfo h3 {
-	color: rgba(255, 255, 255, 0.849);
-}
-
-.charInfo h3:not(:first-child) {
-	margin: 1rem 0 0.2rem 0;
 }
 
 section:nth-of-type(2) {
@@ -269,15 +234,41 @@ button[disabled="disabled"] {
 	color: black;
 }
 
-.characters {
+.infoTabs {
+	background: #a5a5a5;
 	display: flex;
-	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.infoTabs button {
+	padding: 0.8rem 0.5rem;
+	width: 4.5rem;
+	color: goldenrod;
+	background-color: rgba(245, 245, 245, 0.75);
+	border: none;
+	border-radius: 0.2rem 0.2rem 0 0;
+	cursor: pointer;
+}
+
+.starwarsQuote {
+	color: rgb(240, 217, 9);
+	font-style: italic;
 }
 
 .characters li {
+	cursor: pointer;
 	font-size: 1.2rem;
 	padding: 0.5rem;
-	transition: background-color 0.5s, padding 0.7s;
+	transition: zoom 1s;
+	transition: background-color 0.5s;
+	&:hover {
+		zoom: 110%;
+		color: white;
+		background-color: rgba(0, 0, 0, 0.801) !important;
+	}
+	&:hover::after{
+	content: "▸";
+	}
 }
 
 .characters li:nth-child(2n + 1) {
@@ -287,44 +278,5 @@ button[disabled="disabled"] {
 
 .characters li:nth-child(2n) {
 	background-color: rgba(245, 245, 245, 0.75);
-	color: rgba(0, 0, 0, 0.9);
-}
-
-.characters .clickedChar {
-	background-color: rgba(0, 0, 0, 0.801) !important;
-	padding: 0.5rem 0.5rem 0.5rem 1rem;
-	color: rgba(245, 245, 245, 0.75) !important;
-}
-
-.clickedChar::after {
-	content: "▸";
-	color: white;
-	height: 1rem;
-	margin-top: 0.2rem;
-}
-
-.infoTabs {
-	background: #a5a5a5;
-	display: flex;
-	justify-content: space-evenly;
-}
-
-.infoTabs button {
-	padding: 0.8rem 0.5rem;
-	min-width: 20%;
-	color: goldenrod;
-	background-color: rgba(245, 245, 245, 0.75);
-	border: none;
-	border-radius: 0.2rem 0.2rem 0 0;
-	cursor: pointer;
-}
-
-.infoTabs .infoTabBtns {
-	background-color: grey;
-}
-
-.starwarsQuote {
-	color: rgb(240, 217, 9);
-	font-style: italic;
 }
 </style>
