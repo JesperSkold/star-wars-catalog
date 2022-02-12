@@ -9,7 +9,17 @@
 				<h2 class="characterBackground">Characters</h2>
 				<Spinner v-if="loading" />
 				<ul class="characters">
-					<li v-for="char of chars" :key="char.name" @click="setClickedChar(char)">{{ char.name }}</li>
+					<li
+						v-for="char of chars"
+						:key="char.name"
+						@click="
+							setClickedChar(char);
+							setActive(char.name);
+						"
+						:class="{ activeLi: activeName === char.name }"
+					>
+						{{ char.name }}
+					</li>
 				</ul>
 				<div class="paginator">
 					<button class="prevBtn" :class="{ hideBtn: currPage === 1 }" :disabled="loading" @click="prevPage">&#9665;</button>
@@ -51,6 +61,7 @@ export default {
 		return {
 			loading: true,
 			currChar: null,
+			activeName: null,
 		};
 	},
 	computed: {
@@ -71,6 +82,9 @@ export default {
 		},
 	},
 	methods: {
+		setActive(charName) {
+			this.activeName = charName
+		},
 		async prevPage() {
 			this.loading = true;
 			await this.$store.dispatch("fetchPrevPage");
@@ -266,8 +280,19 @@ button[disabled="disabled"] {
 		color: white;
 		background-color: rgba(0, 0, 0, 0.801) !important;
 	}
-	&:hover::after{
-	content: "▸";
+	&:hover::after {
+		content: "▸";
+	}
+}
+
+.activeLi {
+	font-size: 1.2rem;
+	padding: 0.5rem;
+		zoom: 110%;
+		color: white;
+		background-color: rgba(0, 0, 0, 0.801) !important;
+	&::after {
+		content: "▸";
 	}
 }
 
