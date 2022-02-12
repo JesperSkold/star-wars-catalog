@@ -11,4 +11,7 @@
   padding: 0;
   font-family: 'Ropa Sans', sans-serif;
 }
+html{
+  background-color: rgba(8, 8, 8, 0.774);
+}
 </style>

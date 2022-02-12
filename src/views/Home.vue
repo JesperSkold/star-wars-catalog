@@ -1,14 +1,15 @@
 <template>
 	<div class="wrapper">
 		<header>
-			<h1>Star Wars Catalog</h1>
-			<p class="starwarsQuote">"{{swQuote}}"</p>
+			<h1>Star Wars</h1>
+			<h1>Catalog</h1>
+			<p class="starwarsQuote">"{{ swQuote }}"</p>
 		</header>
 		<main>
 			<section>
 				<h2 class="characterBackground">Characters</h2>
 				<Spinner v-if="loading" />
-				<ul class="characters" :class="{preventClick: loading}">
+				<ul class="characters" :class="{ preventClick: loading }">
 					<li
 						v-for="char of chars"
 						:key="char.name"
@@ -39,7 +40,7 @@
 					<li>Birth Year: {{ currChar.birth_year }}</li>
 					<li>Gender: {{ currChar.gender }}</li>
 				</ul>
-				<div class="infoTabs" v-if="currChar" :class="{preventClick: loading}">
+				<div class="infoTabs" v-if="currChar" :class="{ preventClick: loading }">
 					<router-link :to="{ name: 'PlanetView' }"><button>Planet</button></router-link>
 					<router-link :to="{ name: 'SpeciesView' }"><button>Species</button></router-link>
 					<router-link :to="{ name: 'VehiclesView' }"><button :class="{ inactiveTab: !vehicles.length }">Vehicles</button></router-link>
@@ -53,7 +54,7 @@
 
 <script>
 import Spinner from "../components/Spinner.vue";
-const starwars = require('starwars');
+const starwars = require("starwars");
 export default {
 	components: {
 		Spinner,
@@ -85,7 +86,7 @@ export default {
 	},
 	methods: {
 		setActive(charName) {
-			this.activeName = charName
+			this.activeName = charName;
 		},
 		async prevPage() {
 			this.loading = true;
@@ -108,7 +109,7 @@ export default {
 		},
 	},
 	async mounted() {
-		this.swQuote = starwars()
+		this.swQuote = starwars();
 		await this.$store.dispatch("fetchChars");
 		this.loading = false;
 	},
@@ -116,8 +117,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.preventClick{
+.preventClick {
 	pointer-events: none;
 }
 .infoTabs a.router-link-active {
@@ -133,11 +133,6 @@ export default {
 	visibility: hidden;
 }
 
-.wrapper {
-	height: 100vh;
-	background-color: rgba(8, 8, 8, 0.774);
-}
-
 header {
 	background-image: url("../assets/header-background.png");
 	background-repeat: no-repeat;
@@ -151,7 +146,7 @@ header {
 
 header h1 {
 	letter-spacing: 0.5rem;
-	width: 40rem;
+	word-wrap: break-word;
 	text-transform: uppercase;
 	color: rgb(240, 217, 9);
 	font-size: 4rem;
@@ -186,7 +181,7 @@ main {
 }
 
 section {
-	height: 65vh;
+	height: 67vh;
 	margin: -3rem 2rem 4rem 2rem;
 	width: 48vh;
 	background-color: rgb(165, 165, 165);
@@ -295,9 +290,9 @@ button[disabled="disabled"] {
 .activeLi {
 	font-size: 1.2rem;
 	padding: 0.5rem;
-		zoom: 110%;
-		color: white;
-		background-color: rgba(0, 0, 0, 0.801) !important;
+	zoom: 110%;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.801) !important;
 	&::after {
 		content: "▸";
 	}
@@ -310,5 +305,27 @@ button[disabled="disabled"] {
 
 .characters li:nth-child(2n) {
 	background-color: rgba(245, 245, 245, 0.75);
+}
+
+@media screen and (max-width: 570px) {
+	header {
+		h1 {
+			font-size: 1rem;
+		}
+		.starwarsQuote{
+			font-size: .8rem;
+		}
+	}
+	main {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		transform: scale(0.8);
+	}
+}
+@media screen and (max-width: 570px) {
+	main{
+		transform: scale(0.6);
+	}
 }
 </style>
