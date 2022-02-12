@@ -2,7 +2,7 @@
 	<div class="wrapper">
 		<header>
 			<h1>Star Wars Catalog</h1>
-			<p class="starwarsQuote"></p>
+			<p class="starwarsQuote">"{{swQuote}}"</p>
 		</header>
 		<main>
 			<section>
@@ -53,6 +53,7 @@
 
 <script>
 import Spinner from "../components/Spinner.vue";
+const starwars = require('starwars');
 export default {
 	components: {
 		Spinner,
@@ -62,6 +63,7 @@ export default {
 			loading: true,
 			currChar: null,
 			activeName: null,
+			swQuote: null,
 		};
 	},
 	computed: {
@@ -106,6 +108,7 @@ export default {
 		},
 	},
 	async mounted() {
+		this.swQuote = starwars()
 		await this.$store.dispatch("fetchChars");
 		this.loading = false;
 	},
