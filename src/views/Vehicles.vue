@@ -1,25 +1,42 @@
 <template>
 	<div class="container" v-if="vehicles.length">
-		<ul v-for="vehicle of vehicles" :key="vehicle.name">
-			<h3>Name: {{vehicle.name}}</h3>
-			<li>Model: {{ vehicle.model }}</li>
-			<li>Manufacturer: {{ vehicle.manufacturer }}</li>
-			<li>Cost in credits: {{ vehicle.cost_in_credits }}</li>
-			<li>Length: {{ vehicle.length }}</li>
-			<li>Max atmosphering speed: {{ vehicle.max_atmosphering_speed }}</li>
-			<li>Crew: {{ vehicle.crew }}</li>
-			<li>Passengers: {{ vehicle.passengers }}</li>
-			<li>Cargo capacity: {{ vehicle.cargo_capacity }}</li>
-			<li>Consumables: {{ vehicle.consumables }}</li>
+		<ul>
+			<h3>Name: {{vehicles[page].name}}</h3>
+			<li>Model: {{ vehicles[page].model }}</li>
+			<li>Manufacturer: {{ vehicles[page].manufacturer }}</li>
+			<li>Cost in credits: {{ vehicles[page].cost_in_credits }}</li>
+			<li>Length: {{ vehicles[page].length }}</li>
+			<li>Max atmosphering speed: {{ vehicles[page].max_atmosphering_speed }}</li>
+			<li>Crew: {{ vehicles[page].crew }}</li>
+			<li>Passengers: {{ vehicles[page].passengers }}</li>
+			<li>Cargo capacity: {{ vehicles[page].cargo_capacity }}</li>
+			<li>Consumables: {{ vehicles[page].consumables }}</li>
 		</ul>
+				<div class="button-container">
+		<button @click="prevPage" :disabled="page === 0">&#9665;</button>
+		<button @click="nextPage" :disabled="page === vehicles.length - 1">&#9655;</button>
+		</div>
 	</div>
 </template>
 
 <script>
 export default {
+		methods: {
+		nextPage() {
+			this.$store.dispatch("nextPageDispatch");
+			console.log(this.page);
+		},
+		prevPage() {
+			this.$store.dispatch("prevPageDispatch");
+			console.log(this.page);
+		},
+	},
 	computed: {
 		vehicles() {
 			return this.$store.state.currVehicles;
+		},
+	page() {
+			return this.$store.state.infoTabPage;
 		},
 	},
 };

@@ -1,6 +1,5 @@
 <template>
 	<div v-if="starships.length">
-		<!-- <ul v-for="starship of starships" :key="starship.name"> -->
 		<ul>
 			<h3>Name: {{ starships[page].name }}</h3>
 			<li>Model: {{ starships[page].model }}</li>
@@ -17,33 +16,20 @@
 			<li>Starship Class: {{ starships[page].starship_class }}</li>
 		</ul>
 		<div class="button-container">
-		<button @click="prevPage" :disabled="page === 0">&#9665;</button>
-		<button @click="nextPage" :disabled="page === starships.length - 1">&#9655;</button>
+		<button @click="prevPage" :class="{'hide-btn': page === 0}">&#9665;</button>
+		<button @click="nextPage" :class="{'hide-btn': page === starships.length - 1}">&#9655;</button>
 		</div>
 	</div>
 </template>
 
 <script>
 export default {
-	data() {
-		return {
-			// pageCounter: 0,
-		};
-	},
 	methods: {
 		nextPage() {
 			this.$store.dispatch("nextPageDispatch");
-			console.log(this.page);
-			// this.pageCounter++;
-			// console.log(this.pageCounter);
-			// console.log(this.starships[this.pageCounter].name);
 		},
 		prevPage() {
 			this.$store.dispatch("prevPageDispatch");
-			console.log(this.page);
-			// console.log(this.starships[this.pageCounter].name);
-			// console.log(this.pageCounter);
-			// this.pageCounter--;
 		},
 	},
 	computed: {
@@ -51,13 +37,8 @@ export default {
 			return this.$store.state.currStarships;
 		},
 		page() {
-			return this.$store.state.starshipPage;
+			return this.$store.state.infoTabPage;
 		},
-		// if (this.starships[this.pageCounter] === undefined) {
-		// 	this.pageCounter = 0
-	},
-	mounted() {
-		// console.log(this.pageCounter, "lol");
 	},
 };
 </script>

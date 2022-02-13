@@ -43,8 +43,8 @@
 				<div class="infoTabs" v-if="currChar" :class="{ preventClick: loading }">
 					<router-link :to="{ name: 'PlanetView' }"><button>Planet</button></router-link>
 					<router-link :to="{ name: 'SpeciesView' }"><button>Species</button></router-link>
-					<router-link :to="{ name: 'VehiclesView' }"><button :class="{ inactiveTab: !vehicles.length }">Vehicles</button></router-link>
-					<router-link :to="{ name: 'StarshipsView' }"><button :class="{ inactiveTab: !starships.length }">Starships</button></router-link>
+					<router-link :to="{ name: 'VehiclesView' }"><button @click="clearPages" :class="{ inactiveTab: !vehicles.length }">Vehicles</button></router-link>
+					<router-link :to="{ name: 'StarshipsView' }"><button @click="clearPages" :class="{ inactiveTab: !starships.length }">Starships</button></router-link>
 				</div>
 				<router-view></router-view>
 			</section>
@@ -107,6 +107,9 @@ export default {
 			await this.$store.dispatch("fetchStarships", char);
 			this.loading = false;
 		},
+		clearPages(){
+			this.$store.dispatch('clearPageDispatch')
+		}
 	},
 	async mounted() {
 		this.swQuote = starwars();

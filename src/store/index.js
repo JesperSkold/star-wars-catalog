@@ -10,7 +10,7 @@ export default new Vuex.Store({
     currPlanet: null,
     currSpecies: null,
     currStarships: [],
-    starshipPage: 0,
+    infoTabPage: 0,
     currVehicles: [],
     maxPages: 0
   },
@@ -37,19 +37,21 @@ export default new Vuex.Store({
       state.currSpecies = "unknown"
     },
     saveVehicles(state, vehicles) {
-      state.currVehicles = []
       state.currVehicles = vehicles
+      state.infoTabPage = 0
     },
     saveStarships(state, starships) {
-      state.currStarships = []
-      state.starshipPage = 0
       state.currStarships = starships
+      state.infoTabPage = 0
     },
     increasePage(state){
-      state.starshipPage++
+      state.infoTabPage++
     },
     decreasePage(state){
-      state.starshipPage--
+      state.infoTabPage--
+    },
+    clearPage(state){
+      state.infoTabPage = 0
     }
   },
   actions: {
@@ -91,7 +93,7 @@ export default new Vuex.Store({
             const response = await fetch(vehicle)
             return data = await response.json()
           }))
-        context.commit('saveVehicles', data)
+          context.commit('saveVehicles', data)
       } catch (error) {
         console.error(error);
       }
@@ -104,7 +106,7 @@ export default new Vuex.Store({
             const response = await fetch(starship)
             return await response.json()
           }))
-        context.commit('saveStarships', data)
+          context.commit('saveStarships', data)
       } catch (error) {
         console.error(error);
       }
@@ -114,6 +116,9 @@ export default new Vuex.Store({
     },
     prevPageDispatch(context){
       context.commit('decreasePage')
+    },
+    clearPageDispatch(context){
+      context.commit('clearPage')
     }
   },
   modules: {
