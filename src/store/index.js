@@ -10,6 +10,7 @@ export default new Vuex.Store({
     currPlanet: null,
     currSpecies: null,
     currStarships: [],
+    starshipPage: 0,
     currVehicles: [],
     maxPages: 0
   },
@@ -41,8 +42,15 @@ export default new Vuex.Store({
     },
     saveStarships(state, starships) {
       state.currStarships = []
+      state.starshipPage = 0
       state.currStarships = starships
     },
+    increasePage(state){
+      state.starshipPage++
+    },
+    decreasePage(state){
+      state.starshipPage--
+    }
   },
   actions: {
     async fetchChars(context) {
@@ -100,6 +108,12 @@ export default new Vuex.Store({
       } catch (error) {
         console.error(error);
       }
+    },
+    nextPageDispatch(context){
+      context.commit('increasePage')
+    },
+    prevPageDispatch(context){
+      context.commit('decreasePage')
     }
   },
   modules: {

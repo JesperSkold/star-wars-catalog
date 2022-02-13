@@ -5,7 +5,7 @@
 			<li>Classification: mammal</li>
 			<li>Designation: sentient</li>
 		</ul>
-		<ul class="charInfo" v-else-if="species">
+		<ul v-else-if="species">
 			<h3>Name: {{ species.name }}</h3>
 			<li>Classification: {{ species.classification }}</li>
 			<li>Designation: {{ species.designation }}</li>

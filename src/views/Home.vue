@@ -164,8 +164,7 @@ h3 {
 	color: rgba(0, 0, 0, 0.603);
 }
 
-.charDetails,
-.charInfo {
+.charDetails {
 	padding: 0.8rem;
 }
 
@@ -178,10 +177,17 @@ li {
 main {
 	display: flex;
 	justify-content: center;
+
+	// display: grid;
+	// justify-content: center;
+	// grid-template-columns: 1fr 1fr;
+	// grid-template-rows: 55vh;
 }
 
 section {
-	height: 67vh;
+	min-height: 50rem;
+	// min-width: 30%;
+	// height: 55vh;
 	margin: -3rem 2rem 4rem 2rem;
 	width: 48vh;
 	background-color: rgb(165, 165, 165);
@@ -189,8 +195,18 @@ section {
 }
 
 section:first-child {
+	// min-height: 55vh;
 	display: flex;
 	flex-direction: column;
+}
+
+section:nth-of-type(2) {
+	// height: 55vh;
+	// height: 55vh;
+	// overflow-y: scroll;
+	background-color: grey;
+	// display: flex;
+	// flex-direction: column;
 }
 
 .characterBackground {
@@ -214,12 +230,6 @@ section:first-child {
 
 .charDetails {
 	background-color: #a5a5a5;
-}
-
-section:nth-of-type(2) {
-	background-color: grey;
-	display: flex;
-	flex-direction: column;
 }
 
 .paginator {
@@ -246,13 +256,14 @@ section:nth-of-type(2) {
 	background: none;
 }
 
-button[disabled="disabled"] {
+.paginator button[disabled="disabled"] {
 	color: black;
 }
 
 .infoTabs {
 	background: #a5a5a5;
 	display: flex;
+	overflow: hidden;
 	justify-content: space-evenly;
 }
 
@@ -273,7 +284,7 @@ button[disabled="disabled"] {
 
 .characters li {
 	cursor: pointer;
-	font-size: 1.2rem;
+	font-size: 1.6rem;
 	padding: 0.5rem;
 	transition: zoom 1s;
 	transition: background-color 0.5s;
@@ -288,7 +299,7 @@ button[disabled="disabled"] {
 }
 
 .activeLi {
-	font-size: 1.2rem;
+	font-size: 1.6rem;
 	padding: 0.5rem;
 	zoom: 110%;
 	color: white;
@@ -320,12 +331,11 @@ button[disabled="disabled"] {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		transform: scale(0.8);
-	}
-}
-@media screen and (max-width: 570px) {
-	main{
-		transform: scale(0.6);
+		// transform: scale(0.8);
+
+		section{
+			width: 85vw;
+		}
 	}
 }
 </style>
