@@ -13,8 +13,8 @@
 			<li>Consumables: {{ vehicles[page].consumables }}</li>
 		</ul>
 				<div class="button-container">
-		<button @click="prevPage" :disabled="page === 0">&#9665;</button>
-		<button @click="nextPage" :disabled="page === vehicles.length - 1">&#9655;</button>
+		<button @click="prevPage" :class="{'hide-btn': page === 0}">&#9665;</button>
+		<button @click="nextPage" :class="{'hide-btn': page === vehicles.length - 1}">&#9655;</button>
 		</div>
 	</div>
 </template>
@@ -24,11 +24,9 @@ export default {
 		methods: {
 		nextPage() {
 			this.$store.dispatch("nextPageDispatch");
-			console.log(this.page);
 		},
 		prevPage() {
 			this.$store.dispatch("prevPageDispatch");
-			console.log(this.page);
 		},
 	},
 	computed: {
