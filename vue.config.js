@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/star-wars-swapi-vue-vuex/'
+  publicPath: '/star-wars-catalog/'
 }
